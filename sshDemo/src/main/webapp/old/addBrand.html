@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>添加品牌</title>
+</head>
+<body>
+<div id="app">
+    <h3>添加品牌</h3>
+    <form action="" method="post" v-model="formData">
+        品牌名称：<input id="brandName" v-model="formData.brandName" name="brandName"><br>
+        企业名称：<input id="companyName" v-model="formData.companyName" name="companyName"><br>
+        排序：<input id="ordered" v-model="formData.ordered" name="ordered"><br>
+        描述信息：<textarea rows="5" cols="20" id="description" v-model="formData.description" name="description"></textarea><br>
+        状态：
+        <input type="radio" name="status" v-model="formData.status" value="0">禁用
+        <input type="radio" name="status" v-model="formData.status" value="1">启用<br>
+
+        <input type="button" id="btn" @click="submitForm" value="提交">
+    </form>
+</div>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/1.2.5/axios.js"></script>
+<script src="js/vue.js"></script>
+<script>
+    new Vue({
+        el: "#app",
+        data(){
+            return {
+                formData:{}
+            }
+        },
+        methods : {
+            submitForm() {
+                var _this = this;
+                // console.log(FormData);
+                axios({
+                    method:"post",
+                    url:"http://localhost:8080/sshDemo/AddServlet",
+                    data: _this.formData
+                }).then(function(data) {
+                    if (data.data == "success") {
+                        location.href = "brand.html";
+                    }
+                })
+            }
+        }
+
+    })
+//     // 1. 绑定单机事件
+//     document.getElementById("btn").onclick = function() {
+//         // 表单数据转为json
+//         var formData = {
+//             brandName: "",
+//             companyName: "",
+//             ordered: "",
+//             description: "",
+//             status: ""
+//         };
+//         // 获取表单数据
+//         let brandName = document.getElementById("brandName").value;
+//         // 设置数据
+//         formData.brandName = brandName;
+//
+//         let status = document.getElementsByName("status");
+//         for (let i = 0; i < status.length; i++) {
+//             if (status[i].checked) {
+// }               formData.status = status[i].value;
+//         }
+//
+//
+//         // 2. 发送请求
+//         axios({
+//             method:"post",
+//             url:"http://localhost:8080/sshDemo/AddServlet",
+//             data:formData
+//         }).then(function(data) {
+//             // 判断是否为success
+//             if (data.data == "success") {
+//                 location.href = "http://localhost:8080/sshDemo/brand.html";
+//             }
+//         })
+//     }
+</script>
+</body>
+</html>

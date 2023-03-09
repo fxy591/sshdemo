@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎注册</title>
+    <link href="../css/register.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="form-div">
+    <div class="reg-content">
+        <h1>欢迎注册</h1>
+        <span>已有帐号？</span> <a href="login.html">登录</a>
+    </div>
+    <form id="reg-form" action="#" method="get">
+
+        <table>
+
+            <tr>
+<!--                需求：当用户名输入框失去焦点时，校验用户名是否已经存在-->
+                <td>用户名</td>
+                <td class="inputs">
+                    <input name="username" type="text" id="username">
+                    <br>
+                    <span id="username_err" class="err_msg" style="display: none">用户名太受欢迎</span>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>密码</td>
+                <td class="inputs">
+                    <input name="password" type="password" id="password">
+                    <br>
+                    <span id="password_err" class="err_msg" style="display: none">密码格式有误</span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>验证码</td>
+                <td class="inputs">
+                    <input name="checkCode" type="text" id="checkCode">
+                    <img src="../imgs/a.jpg">
+                    <a href="#" id="changeImg">看不清？</a>
+                </td>
+            </tr>
+
+        </table>
+
+        <div class="buttons">
+            <input value="注 册" type="submit" id="reg_btn">
+        </div>
+        <br class="clear">
+    </form>
+
+</div>
+
+<!--<script>-->
+<!--    // 1 绑定失去焦点事件-->
+<!--    document.getElementById("username").onblur = function() {-->
+<!--        // 2 发送ajax请求-->
+<!--        // 获取用户名的值-->
+<!--        var username = this.value;-->
+<!--        // 2.1 创建核心对象-->
+<!--        var xhttp;-->
+<!--        if(window.XMLHttpRequest){-->
+<!--            xhttp = new XMLHttpRequest();-->
+<!--        }else {-->
+<!--            xhttp = new ActiveXObject("Microsoft.XMLHTTP");-->
+<!--        }-->
+<!--        // 2.2 发送请求-->
+<!--        xhttp.open("GET", "http://localhost:8080/sshDemo/selectUserServlet?username="+username);-->
+<!--        xhttp.send();-->
+<!--        // 2.3 获取响应-->
+<!--        xhttp.onreadystatechange = function() {-->
+<!--            if (xhttp.readyState == 4 && this.status == 200) {-->
+<!--                // 判断是否为true-->
+<!--                if(this.responseText == "true"){-->
+<!--                    // 存在-->
+<!--                    document.getElementById("username_err").style.display = "";-->
+<!--                }else {-->
+<!--                    // 清除提示信息-->
+<!--                    document.getElementById("username_err").style.display = "none";-->
+<!--                }-->
+<!--            }-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
+<!--引入失败-->
+<!--<script src="js/axios-0.18.0.js"></script>-->
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/1.2.5/axios.js"></script>
+<script>
+    document.getElementById("username").onblur = function() {
+        // 2 发送ajax请求
+        // 获取用户名的值
+        var username = this.value;
+        axios.get("http://localhost:8080/sshDemo/selectUserServlet?username="+username).then(function (resp){
+            // 判断是否为true
+            // alert("123")
+            console.log(resp.data)
+            if(resp.data == true){
+                // 存在
+                document.getElementById("username_err").style.display = "";
+            }else {
+                // 清除提示信息
+                document.getElementById("username_err").style.display = "none";
+            }
+        })
+    }
+</script>
+</body>
+</html>
